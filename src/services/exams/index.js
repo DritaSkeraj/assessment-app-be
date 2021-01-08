@@ -65,7 +65,7 @@ examsRouter.post(
           next(error)
       }
 })
-// to anyone that might read this code: BEST OF LUCK!
+
 examsRouter.post(
     "test/:examId/answer", 
     answerValidation, 
