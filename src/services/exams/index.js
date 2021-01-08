@@ -198,7 +198,7 @@ examsRouter.post("/:examId/answer", async (req, res, next) => {
           //send selected answer as response
           res
             .status(200)
-            .send(isCorrect+ "," + req.body.answer +","+ correctAnswerIndex);
+            .send(isCorrect +","+ req.params.body.answer +","+ correctAnswerIndex);
         }
       } else {
         const error = new Error();
