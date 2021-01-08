@@ -145,13 +145,25 @@ examsRouter.post("/:examId/answer", async (req, res, next) => {
           (exam) => exam._id !== req.params.examId
         );
   
-        
         if (selectedExam.questions[req.body.question].providedAnswer) {
           res.send("already answered");
         } else {
+
+          //check if the answer is correct
+          let questions = await getQuestions();
+          const examIndex = exams.findIndex(exam => exam._id === req.params.examId)
+          let question = exams[examIndex].questions[req.body.question].text;
+          console.log("text of the question::::::::::::::::::::::::::: ", question);
+          let questionIndex = questions.findIndex(q => q.text === question);
+          console.log("found question::::::::", questions[questionIndex].text);
+          let correctAnswerIndex = questions[questionIndex].answers.findIndex(answer => answer.isCorrect == true);
+          let providedAnswerIndex = req.body.answer;
+          let isCorrect;
+          correctAnswerIndex === providedAnswerIndex ? isCorrect = true : isCorrect = false;
+          console.log("IS CORRECT,,,,,,,,,,,,,,,,, ", isCorrect);
+
           //add provided answer into question
-          selectedExam.questions[req.body.question].providedAnswer =
-            req.body.answer;
+          selectedExam.questions[req.body.question].providedAnswer = isCorrect;
           //add score into exam
           let score = 0;
           if (selectedExam.score) {
@@ -186,12 +198,7 @@ examsRouter.post("/:examId/answer", async (req, res, next) => {
           //send selected answer as response
           res
             .status(200)
-            .send(
-              `You selected ${
-                selectedExam.questions[req.body.question].answers[req.body.answer]
-                  .text
-              }`
-            );
+            .send(isCorrect+ "," + req.body.answer +","+ correctAnswerIndex);
         }
       } else {
         const error = new Error();
