@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/DritaSkeraj/assessment-app-be#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-list-endpoints": "^5.0.0",
     "express-validator": "^6.9.2",
